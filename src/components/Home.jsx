@@ -1,87 +1,85 @@
-import React, { useEffect, useState, } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
-import { addToPastes } from '../Redux/pasteSlice';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToPastes, updateToPastes } from '../Redux/pasteSlice'
+import { useSearchParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
+const Home = () => {
+  const dispatch = useDispatch()
+  const [title, setTitle] = useState('')
+  const [value, setValue] = useState('')
+  const [searchParams] = useSearchParams()
+  const pasteId = searchParams.get("pasteId")
+  const pastes = useSelector(state => state.paste.pastes)
 
-function Home() {
-   
-    const[title,setTitle]=useState('');
-    const [value,setValue]=useState('');
-    const[searchParams,setSearchParams]=useSearchParams();
-    const pasteId=searchParams.get("pasteId");
-    const dispatch=useDispatch();
-    const allPastes=useSelector((state)=>state.paste.pastes)
-
-    useEffect(() => {
-      if(pasteId){
-        const paste=allPastes.find((p)=>
-        p._id===pasteId)
-        setTitle(paste.title);
-        setValue(paste.content);
+  useEffect(() => {
+    if (pasteId) {
+      const paste = pastes.find(p => p._id === pasteId)
+      if (paste) {
+        setTitle(paste.title)
+        setValue(paste.content)
       }
-       
-     }, [pasteId]);
+    }
+  }, [pasteId, pastes])
 
-    function createPaste(){
-    const paste ={
-      title:title,
-      content:value,
-      _id:pasteId || Date.now().toString(36),
-      createdAt:new Date().toISOString(),
+  function createPaste() {
+    if (!title.trim()) {
+      toast.error("Title cannot be empty!")
+      return
     }
 
-   
-
-
-    if(pasteId){
-     //update
-     dispatch(updateToPaste(paste));
-    }
-    else{
-    // create
-    dispatch(addToPastes(paste));
+    const paste = {
+      title,
+      content: value,
+      _id: pasteId || Date.now().toString(36),
+      createdAt: new Date().toISOString(),
     }
 
-    // After creation and updation
-    setTitle('');
-    setValue('');
-    setSearchParams({});
+    if (pasteId) {
+      dispatch(updateToPastes(paste))
+      toast.success("Paste updated!")
+    } else {
+      dispatch(addToPastes(paste))
+      toast.success("Paste created!")
     }
-    
+
+    setTitle('')
+    setValue('')
+    window.history.replaceState(null, '', '/')
+  }
+
   return (
-    <div>
-      <div className='flex flex-row gap-10 place-content-evenly'>
-      <input 
-      className='p-2 rounded-2xl mt-2 bg-amber-700 text-white'
-      type='text'
-      placeholder='Enter title here'
-      value={title}
-      onChange={(e)=> setTitle(e.target.value)}
-      />
+    <div className="flex flex-col gap-5 bg-gray-100 p-6 rounded-2xl shadow-md max-w-5xl mx-auto mt-6">
+      <div className="flex flex-col gap-2">
+        <label className="text-lg font-semibold text-gray-700">Paste Title</label>
+        <input
+          type="text"
+          placeholder="Enter title here..."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
+        />
+      </div>
 
-      <button  onClick={createPaste} className='text-white bg-amber-700 mt-2 rounded-2xl p-2'>
-      {
-        pasteId ? "update Paste":"Create My Paste"
-      } 
+      <div className="flex flex-col gap-2">
+        <label className="text-lg font-semibold text-gray-700">Paste Content</label>
+        <textarea
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          rows={12}
+          className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white resize-none"
+          placeholder="Enter your code or content here..."
+        />
+      </div>
+
+      <button
+        onClick={createPaste}
+        className="self-start px-6 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+      >
+        {pasteId ? "Update Paste" : "Create Paste"}
       </button>
-
-    </div>
-
-    <div className='mt-8'>
-    <textarea
-      className='bg-red-100 p-3 mt-4 rounded-2xl min-w-[500px]'
-      value={value}
-      placeholder='enter content here'
-      onChange={(e)=> setValue(e.target.value)}
-      rows={20}
-    />
-    </div>
-
-
     </div>
   )
 }
 
 export default Home
-
