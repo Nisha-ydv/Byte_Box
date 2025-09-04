@@ -1,8 +1,31 @@
-# React + Vite
+# 📦 ByteBox
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ByteBox is a lightweight and user-friendly Paste Management application that allows users to **create, edit, view, and delete text snippets** (pastes). It uses **React**, **Redux Toolkit**, and **LocalStorage** to store data persistently in the browser, making it fast and easy to use.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
+
+- ✏️ **Create Pastes** – Save text snippets easily.
+- 🔍 **View Pastes** – Quickly access your saved content.
+- 📝 **Edit/Update Pastes** – Modify saved pastes.
+- 🗑️ **Delete Pastes** – Remove unwanted pastes.
+- 💾 **Local Storage Support** – Keeps your pastes safe even after refreshing.
+- ⚡ **Redux Toolkit State Management** – Efficient state updates with slices.
+- 🔔 **Toast Notifications** – Instant feedback for user actions.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React, Redux Toolkit, React Hot Toast
+- **State Management:** Redux Toolkit
+- **Styling:** CSS / Tailwind (if used)
+- **Storage:** LocalStorage (Browser-based)
+- **Build Tool:** Vite / CRA (depending on your setup)
+
+
+
+
+
+
