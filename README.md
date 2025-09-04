@@ -20,9 +20,9 @@ ByteBox is a lightweight and user-friendly Paste Management application that all
 
 - **Frontend:** React, Redux Toolkit, React Hot Toast
 - **State Management:** Redux Toolkit
-- **Styling:** CSS / Tailwind (if used)
+- **Styling:** CSS / Tailwind 
 - **Storage:** LocalStorage (Browser-based)
-- **Build Tool:** Vite / CRA (depending on your setup)
+
 
 
 
